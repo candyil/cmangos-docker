@@ -34,6 +34,6 @@ VOLUME ["/opt/cmangos/etc"]
 COPY start.sh /start.sh
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /start.sh && chmod +x /wait-for-it.sh
-CMD ["/wait-for-it.sh", "database:3306", "-t", "600", "-s", "--", "/start.sh"]
+CMD ["/wait-for-it.sh", "database:3306", "-t", "900", "-s", "--", "/start.sh"]
 
 EXPOSE 3724
