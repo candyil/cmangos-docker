@@ -17,5 +17,5 @@ $ sudo docker-compose up -d
 Now wait for a while because it will need to build the images (cmangos_mangosd, cmangos_realmd, cmangos_db) and will then start spinning up containers.
 
 # Credits
-Thanks to @vishnubob and contributors for the wait-for-it.sh script (https://github.com/vishnubob/wait-for-it).
-Thanks to CMaNGOS Community (https://github.com/cmangos) / (https://cmangos.net/)
+Thanks to @vishnubob and contributors for the wait-for-it.sh script (https://github.com/vishnubob/wait-for-it).  
+Thanks to CMaNGOS Community (https://github.com/cmangos) / (https://cmangos.net/)  
