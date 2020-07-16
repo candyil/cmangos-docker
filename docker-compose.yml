@@ -11,7 +11,7 @@ services:
     build:
       context: ./cmangos_db/
       dockerfile: Dockerfile
-    image: cmangos_db:0.1
+    image: cmangos_db:0.11
     networks:
       - cmangos-net
     ports:
@@ -27,7 +27,7 @@ services:
     build:
       context: ./cmangos_mangosd/
       dockerfile: Dockerfile
-    image: cmangos_mangosd:0.1
+    image: cmangos_mangosd:0.11
     depends_on:
       - cmangos_db
     links:
@@ -49,7 +49,7 @@ services:
     build:
       context: ./cmangos_realmd/
       dockerfile: Dockerfile
-    image: cmangos_realmd:0.1
+    image: cmangos_realmd:0.11
     depends_on:
       - cmangos_db
     links:
