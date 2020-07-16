@@ -8,9 +8,18 @@ To use this project clone it using:
 $ git clone https://github.com/korhaldragonir/cmangos-docker.git
 ```
 
-Make sure you have docker and docker-compose installed on your system and run:
+Place the Data files (DBC, Maps, VMaps, MMaps) in a Tarball format into the `cmangos_mangosd` directory. It needs these file during build. You can get these files by using the extractor on the WoW client and placing them in tar.gz file with the following structure.
 ```
-$ cd cmangos-docker/
+cmangos-data.tar.gz
+├── dbc
+├── maps
+├── mmaps
+└── vmaps
+```
+I did not include these because they would make the repository far to big and may need re-extraction every once in a while.
+
+Make sure you have docker and docker-compose installed on your system and run the following command in the `cmangos-docker` directory:
+```
 $ sudo docker-compose up -d
 ```
 
