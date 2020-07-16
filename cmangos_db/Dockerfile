@@ -1,5 +1,5 @@
 # Download base image ubuntu 18.04
-FROM mariadb:latest
+FROM mariadb:10.2-bionic
 
 # Update Ubuntu Software repository
 RUN apt update

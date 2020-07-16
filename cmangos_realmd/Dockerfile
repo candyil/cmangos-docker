@@ -22,7 +22,8 @@ RUN mkdir -p /opt/cmangos/logs /opt/src/cmangos/build && \
 # Prepare Config Files
 RUN cd /opt/cmangos/etc && mv -v realmd.conf.dist realmd.conf
 RUN cd /opt/cmangos/etc && \
-    sed -i 's/127.0.0.1;3306;mangos/database;3306;mangos/g' realmd.conf
+    sed -i 's/127.0.0.1;3306;mangos/database;3306;mangos/g' realmd.conf && \
+    sed -i 's/MaxPingTime \= 30/MaxPingTime \= 5/g' realmd.conf
 
 # Extract runtime files and cleanup
 RUN rm -rfv /opt/src

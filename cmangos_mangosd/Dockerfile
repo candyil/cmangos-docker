@@ -24,7 +24,8 @@ RUN cd /opt/cmangos/etc && mv -v mangosd.conf.dist mangosd.conf && cp -v /opt/sr
 RUN cd /opt/cmangos/etc && \
     sed -i 's/127.0.0.1;3306;mangos/database;3306;mangos/g' mangosd.conf && \
     sed -i 's/LogsDir \= ""/LogsDir \= "\/opt\/cmangos\/logs"/g' mangosd.conf && \
-    sed -i 's/DataDir \= "."/DataDir = "\/opt\/cmangos"/g' mangosd.conf && \
+    sed -i 's/DataDir \= "."/DataDir \= "\/opt\/cmangos"/g' mangosd.conf && \
+    sed -i 's/MaxPingTime \= 30/MaxPingTime \= 5/g' mangosd.conf && \
     sed -i 's/Console\.Enable \= 1/Console\.Enable \= 0/g' mangosd.conf
 
 # Copy the runtime files
