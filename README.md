@@ -33,6 +33,19 @@ mysql> UPDATE `realmlist` SET `address` = '<your-ip>', `name` = '<realm-name>' W
 mysql> quit;
 ```
 
+## Tips
+If you want to re-build the CMaNGOS code within the images without bringing down the running containers you can run the following from within the `cmangos-docker` directory:
+```
+$ sudo docker-compose build --no-cache
+```
+
+Then after that was succesful you can run:
+```
+$ sudo docker-compose down
+$ sudo docker-compose up -d
+```
+Now you should be running the new version with minimal downtime.
+
 # Credits
 Thanks to @vishnubob and contributors for the wait-for-it.sh script (https://github.com/vishnubob/wait-for-it).  
 Thanks to CMaNGOS Community (https://github.com/cmangos) / (https://cmangos.net/)  
