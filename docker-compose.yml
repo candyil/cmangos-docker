@@ -1,0 +1,64 @@
+version: "3"
+
+volumes:
+  cmangos_db:
+  cmangos_mangosd_logs:
+  cmangos_mangosd_etc:
+  cmangos_realmd_etc:
+
+services:
+  cmangos_db:
+    build:
+      context: ./cmangos_db/
+      dockerfile: Dockerfile
+    image: cmangos_db:0.1
+    networks:
+      - cmangos-net
+    ports:
+      - 3306:3306
+    volumes:
+      - cmangos_db:/var/lib/mysql
+      - ./cmangos_db:/docker-entrypoint-initdb.d:ro
+    restart: unless-stopped
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u root --password=mangos
+    environment:
+      - MYSQL_ROOT_PASSWORD=mangos
+
+  cmangos_mangosd:
+    build:
+      context: ./cmangos_mangosd/
+      dockerfile: Dockerfile
+    image: cmangos_mangosd:0.1
+    depends_on:
+      - cmangos_db
+    links:
+      - "cmangos_db:database"
+    networks:
+      - cmangos-net
+    ports:
+      - 8085:8085
+    volumes:
+      - cmangos_mangosd_etc:/opt/cmangos/etc
+      - cmangos_mangosd_logs:/opt/cmangos/logs
+    restart: unless-stopped
+
+  cmangos_realmd:
+    build:
+      context: ./cmangos_realmd/
+      dockerfile: Dockerfile
+    image: cmangos_realmd:0.1
+    depends_on:
+      - cmangos_db
+    links:
+      - "cmangos_db:database"
+    networks:
+      - cmangos-net
+    ports:
+      - 3724:3724
+    volumes:
+      - cmangos_realmd_etc:/opt/cmangos/etc
+    restart: unless-stopped
+
+networks:
+  cmangos-net:
