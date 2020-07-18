@@ -1,2 +1,8 @@
 # Once again purely for testing and example.
-sudo docker run --rm --name cmangos_db_2 --env MYSQL_ROOT_PASSWORD=mangos --network cmangos-net --mount "type=bind,source=$(pwd),destination=/docker-entrypoint-initdb.d,readonly=true" --publish 13306:3306 cmangos_db:0.1
+sudo docker run --detach \
+  --name cmangos_db_2 \
+  --network cmangos-net \
+  --env MYSQL_ROOT_PASSWORD=mangos \
+  --mount "type=bind,source=$(pwd),destination=/docker-entrypoint-initdb.d,readonly=true" \
+  --publish 13306:3306 \
+ cmangos_db:0.11

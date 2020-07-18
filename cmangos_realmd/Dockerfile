@@ -17,7 +17,7 @@ RUN mkdir -p /opt/src && \
 RUN mkdir -p /opt/cmangos/logs /opt/src/cmangos/build && \
     cd /opt/src/cmangos/build && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/opt/cmangos -DBUILD_GAME_SERVER=OFF && \
-    make -j 2 && make install
+    make -j 4 && make install
 
 # Prepare Config Files
 RUN cd /opt/cmangos/etc && mv -v realmd.conf.dist realmd.conf

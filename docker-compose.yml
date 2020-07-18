@@ -27,7 +27,7 @@ services:
     build:
       context: ./cmangos_mangosd/
       dockerfile: Dockerfile
-    image: cmangos_mangosd:0.11
+    image: cmangos_mangosd:0.2
     depends_on:
       - cmangos_db
     links:
@@ -44,6 +44,15 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/Amsterdam
+      - CHARACTERS_DB=wotlkcharacters
+      - MANGOSD_DB=wotlkmangos
+      - REALMD_DB=wotlkrealmd
+      - DB_USER=mangos
+      - DB_PASS=mangos
+      - REALMD_USER=mangos
+      - REALMD_PASS=mangos
+      - DB_SERVER=database
+      - REALMD_SERVER=database
 
   cmangos_realmd:
     build:
