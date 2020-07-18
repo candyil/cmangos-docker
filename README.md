@@ -55,6 +55,10 @@ If you want to run the individual containers manually and without docker-compose
 | Variable     | Description           | Default Value     |
 |--------------|-----------------------|-------------------|
 | TZ       | This variable is used set the correct timezone. | Europe/Amsterdam |
+| REALMD_DB | This variable is used to set the Realm Database during init. | wotlkrealmd |
+| DB_USER | This variable is used to set the Database user for the Realm Database during init. | mangos |
+| DB_PASS | This variable is used to set the Database password for the Realm Database during init. | mangos |
+| DB_SERVER | This variable is used to set the Database Server (Host or IP) for the Realm Database during init. | database |
 
 ### cmangos_db
 | Variable     | Description           | Default Value     |

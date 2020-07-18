@@ -58,7 +58,7 @@ services:
     build:
       context: ./cmangos_realmd/
       dockerfile: Dockerfile
-    image: cmangos_realmd:0.11
+    image: cmangos_realmd:0.2
     depends_on:
       - cmangos_db
     links:
@@ -72,6 +72,10 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/Amsterdam
+      - REALMD_DB=wotlkrealmd
+      - DB_USER=mangos
+      - DB_PASS=mangos
+      - DB_SERVER=database
 
 networks:
   cmangos-net:
