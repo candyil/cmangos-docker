@@ -33,6 +33,35 @@ mysql> UPDATE `realmlist` SET `address` = '<your-ip>', `name` = '<realm-name>' W
 mysql> quit;
 ```
 
+## Running without Docker-Compose
+If you want to run the individual containers manually and without docker-compose find an example in the `Dockerrun` or `docker-run.sh` files in the subdirectories.
+
+## Environment Variables
+### cmangos_mangosd
+| Variable     | Description           | Default Value     |
+|--------------|-----------------------|-------------------|
+| TZ       | This variable is used set the correct timezone. | Europe/Amsterdam |
+| CHARACTERS_DB | This variable is used to set the Characters Database during init. | wotlkcharacters |
+| MANGOSD_DB | This variable is used to set the Wold Database during init. | wotlkmangos |
+| REALMD_DB | This variable is used to set the Realm Database during init. | wotlkrealmd |
+| DB_USER | This variable is used to set the Database user for the World and Characters Database during init. | mangos |
+| DB_PASS | This variable is used to set the Database password for the World and Characters Database during init. | mangos |
+| REALMD_USER | This variable is used to set the Database user for the Realm Database during init. | mangos |
+| REALMD_PASS | This variable is used to set the Database password for the Realm Database during init. | mangos |
+| DB_SERVER | This variable is used to set the Database Server (Host or IP) for the World and Characters Database during init. | database |
+| REALMD_SERVER | This variable is used to set the Database Server (Host or IP) for the Realm Database during init. | database |
+
+### cmangos_realmd
+| Variable     | Description           | Default Value     |
+|--------------|-----------------------|-------------------|
+| TZ       | This variable is used set the correct timezone. | Europe/Amsterdam |
+
+### cmangos_db
+| Variable     | Description           | Default Value     |
+|--------------|-----------------------|-------------------|
+| TZ       | This variable is used set the correct timezone. | Europe/Amsterdam |
+| MYSQL_ROOT_PASSWORD       | This variable is used to set the MySQL/MariaDB root password on initial deploy. | mangos |
+
 ## Tips
 If you want to re-build the CMaNGOS code within the images without bringing down the running containers you can run the following from within the `cmangos-docker` directory:
 ```
