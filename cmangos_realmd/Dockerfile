@@ -32,9 +32,9 @@ RUN rm -rfv /opt/src
 VOLUME ["/opt/cmangos/etc"]
 
 # Configure Services and Port
-COPY start.sh /start.sh
+COPY 00_init.sh /00_init.sh
 COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /start.sh && chmod +x /wait-for-it.sh
-CMD ["/wait-for-it.sh", "database:3306", "-t", "900", "-s", "--", "/start.sh"]
+RUN chmod +x /00_init.sh && chmod +x /wait-for-it.sh
+CMD ["/00_init.sh"]
 
 EXPOSE 3724
