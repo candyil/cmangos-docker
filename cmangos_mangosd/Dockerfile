@@ -17,12 +17,11 @@ RUN mkdir -p /opt/src && \
 RUN mkdir -p /opt/cmangos/logs /opt/src/cmangos/build && \
     cd /opt/src/cmangos/build && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/opt/cmangos -DBUILD_LOGIN_SERVER=OFF && \
-    make -j 2 && make install
+    make -j 4 && make install
 
 # Prepare Config Files
 RUN cd /opt/cmangos/etc && mv -v mangosd.conf.dist mangosd.conf && cp -v /opt/src/cmangos/src/game/AuctionHouseBot/ahbot.conf.dist.in ahbot.conf
 RUN cd /opt/cmangos/etc && \
-    sed -i 's/127.0.0.1;3306;mangos/database;3306;mangos/g' mangosd.conf && \
     sed -i 's/LogsDir \= ""/LogsDir \= "\/opt\/cmangos\/logs"/g' mangosd.conf && \
     sed -i 's/DataDir \= "."/DataDir \= "\/opt\/cmangos"/g' mangosd.conf && \
     sed -i 's/MaxPingTime \= 30/MaxPingTime \= 5/g' mangosd.conf && \
@@ -37,10 +36,28 @@ RUN cd /opt/cmangos && tar -xvzf cmangos-data.tar.gz && rm -vf cmangos-data.tar.
 # Volume configuration
 VOLUME ["/opt/cmangos/etc", "/opt/cmangos/logs"]
 
-# Configure Services and Port
-COPY start.sh /start.sh
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /start.sh && chmod +x /wait-for-it.sh
-CMD ["/wait-for-it.sh", "database:3306", "-t", "900", "-s", "--", "/start.sh"]
+# Env Variables
+## Databases
+ENV CHARACTERS_DB wotlkcharacters
+ENV MANGOSD_DB wotlkmangos
+ENV REALMD_DB wotlkrealmd
 
-EXPOSE 8085
+## World Credentials
+ENV DB_USER mangos
+ENV DB_PASS mangos
+
+## Realmd Credentials
+ENV REALMD_USER mangos
+ENV REALMD_PASS mangos
+
+## Database Servers
+ENV DB_SERVER database
+ENV REALMD_SERVER database
+
+# Configure Services and Port
+COPY 00_init.sh /00_init.sh
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /00_init.sh && chmod +x /wait-for-it.sh
+CMD ["/00_init.sh"]
+
+EXPOSE 3443 7878 8085
