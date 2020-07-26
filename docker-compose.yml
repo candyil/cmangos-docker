@@ -29,7 +29,7 @@ services:
     build:
       context: ./cmangos_mangosd/
       dockerfile: Dockerfile
-    image: cmangos_mangosd:0.2
+    image: cmangos_mangosd:0.2.1
     depends_on:
       - cmangos_db
     networks:
