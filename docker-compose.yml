@@ -13,7 +13,9 @@ services:
       dockerfile: Dockerfile
     image: cmangos_db:0.11
     networks:
-      - cmangos-net
+      cmangos-net:
+        aliases:
+          - database
     ports:
       - 3306:3306
     volumes:
@@ -30,8 +32,6 @@ services:
     image: cmangos_mangosd:0.2
     depends_on:
       - cmangos_db
-    links:
-      - "cmangos_db:database"
     networks:
       - cmangos-net
     ports:
@@ -61,8 +61,6 @@ services:
     image: cmangos_realmd:0.2
     depends_on:
       - cmangos_db
-    links:
-      - "cmangos_db:database"
     networks:
       - cmangos-net
     ports:
