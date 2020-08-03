@@ -1,6 +1,6 @@
 # CMaNGOS - Docker
 ## What is it?
-These are docker-compose files for the CMaNGOS project, currently for the WotLK variant. But they should be easy to alter for a different branch. I will probably do so later on by having multiple Dockerfiles.
+These are docker-compose files for the CMaNGOS project for the WotLK variant.
 
 ## How to use it?
 To use this project clone it using:
