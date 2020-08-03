@@ -18,4 +18,3 @@ cd /tmp/db
 cd /
 rm -rf /tmp/db
 rm -rf /tmp/cmangos
-exit 0;
