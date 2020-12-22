@@ -1,5 +1,8 @@
-# Download base image ubuntu 18.04
-FROM ubuntu:18.04
+# Download base image ubuntu
+FROM ubuntu:18.04 AS builder
+
+# Set Timezone
+ENV TZ Europe/Amsterdam
 
 # Update Ubuntu Software repository
 RUN apt update
@@ -15,7 +18,6 @@ RUN cd /tmp && wget --no-check-certificate https://github.com/Kitware/CMake/rele
     mv /tmp/cmake-3.16.2-Linux-x86_64 /opt/cmake && \
     ln -s /opt/cmake/bin/* /usr/local/bin/ && \
     rm -f /tmp/cmake-3.16.2-Linux-x86_64.tar.gz
-
 
 # Prepare Sources
 RUN mkdir -p /opt/src && \
@@ -35,6 +37,23 @@ RUN cd /opt/cmangos/etc && \
 
 # Extract runtime files and cleanup
 RUN rm -rfv /opt/src
+
+# Download base image ubuntu
+FROM ubuntu:18.04
+
+# Set Timezone
+ENV TZ Europe/Amsterdam
+
+# Update Ubuntu Software repository
+RUN apt update
+
+# Install nginx, php-fpm and supervisord from ubuntu repository
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt install -q -y binutils libmysql++-dev libtool libssl-dev libcurl4-openssl-dev unrar-free unzip zlibc libc6 openssl pkg-config libboost-dev libboost-program-options-dev libboost-system-dev libboost-thread-dev libboost-dev libboost-regex-dev libpthread-stubs0-dev wget && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy over data
+COPY --from=builder /opt/cmangos /opt/cmangos
 
 # Volume configuration
 VOLUME ["/opt/cmangos/etc"]

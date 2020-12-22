@@ -1,47 +1,47 @@
 version: "3"
 
 volumes:
-  cmangos_db:
-  cmangos_mangosd_logs:
-  cmangos_mangosd_etc:
-  cmangos_realmd_etc:
+  db:
+  mangosd_etc:
+  realmd_etc:
 
 services:
   cmangos_db:
     build:
       context: ./cmangos_db/
       dockerfile: Dockerfile
-    image: cmangos_db:0.11
+    image: cmangos_db:latest
     networks:
-      cmangos-net:
+      cmangos-wotlk:
         aliases:
           - database
     ports:
       - 3306:3306
     volumes:
-      - cmangos_db:/var/lib/mysql
+      - db:/var/lib/mysql
       - ./cmangos_db:/docker-entrypoint-initdb.d:ro
-    restart: unless-stopped
+    restart: "no"
     environment:
+      - TZ=Europe/Amsterdam
       - MYSQL_ROOT_PASSWORD=mangos
 
   cmangos_mangosd:
     build:
       context: ./cmangos_mangosd/
       dockerfile: Dockerfile
-    image: cmangos_mangosd:0.2.2
+    image: cmangos_mangosd:latest
     depends_on:
       - cmangos_db
     networks:
-      - cmangos-net
+      - cmangos-wotlk
     ports:
       - 8085:8085
       - 3443:3443
       - 7878:7878
     volumes:
-      - cmangos_mangosd_etc:/opt/cmangos/etc
-      - cmangos_mangosd_logs:/opt/cmangos/logs
-    restart: unless-stopped
+      - mangosd_etc:/opt/cmangos/etc
+      - "/opt/cmangos-data:/opt/cmangos-data:ro"
+    restart: "no"
     environment:
       - TZ=Europe/Amsterdam
       - CHARACTERS_DB=wotlkcharacters
@@ -58,16 +58,16 @@ services:
     build:
       context: ./cmangos_realmd/
       dockerfile: Dockerfile
-    image: cmangos_realmd:0.2.2
+    image: cmangos_realmd:latest
     depends_on:
       - cmangos_db
     networks:
-      - cmangos-net
+      - cmangos-wotlk
     ports:
       - 3724:3724
     volumes:
-      - cmangos_realmd_etc:/opt/cmangos/etc
-    restart: unless-stopped
+      - realmd_etc:/opt/cmangos/etc
+    restart: "no"
     environment:
       - TZ=Europe/Amsterdam
       - REALMD_DB=wotlkrealmd
@@ -76,4 +76,4 @@ services:
       - DB_SERVER=database
 
 networks:
-  cmangos-net:
+  cmangos-wotlk:
