@@ -8,7 +8,7 @@ To use this project clone it using:
 $ git clone https://github.com/korhaldragonir/cmangos-docker.git
 ```
 
-Place the Data files (DBC, Maps, VMaps, MMaps) in a Tarball format into the `cmangos_mangosd` directory. It needs these file during build. You can get these files by using the extractor on the WoW client and placing them in tar.gz file with the following structure.
+Place the Data files (DBC, Maps, VMaps, MMaps) in the directory `/opt/cmangos-data` with the following structure:
 ```
 /opt/cmangos-data
 ├── dbc
