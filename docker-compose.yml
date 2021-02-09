@@ -15,12 +15,10 @@ services:
       cmangos-wotlk:
         aliases:
           - database
-    ports:
-      - 3306:3306
     volumes:
       - db:/var/lib/mysql
       - ./cmangos_db:/docker-entrypoint-initdb.d:ro
-    restart: "no"
+    restart: "unless-stopped"
     environment:
       - TZ=Europe/Amsterdam
       - MYSQL_ROOT_PASSWORD=mangos
@@ -41,7 +39,7 @@ services:
     volumes:
       - mangosd_etc:/opt/cmangos/etc
       - "/opt/cmangos-data:/opt/cmangos-data:ro"
-    restart: "no"
+    restart: "unless-stopped"
     environment:
       - TZ=Europe/Amsterdam
       - CHARACTERS_DB=wotlkcharacters
@@ -67,7 +65,7 @@ services:
       - 3724:3724
     volumes:
       - realmd_etc:/opt/cmangos/etc
-    restart: "no"
+    restart: "unless-stopped"
     environment:
       - TZ=Europe/Amsterdam
       - REALMD_DB=wotlkrealmd
