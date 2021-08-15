@@ -80,6 +80,6 @@ $ sudo docker-compose up -d
 Now you should be running the new version with minimal downtime.
 
 # Credits
-Thanks to @vishnubob and contributors for the wait-for-it.sh script (https://github.com/vishnubob/wait-for-it).
-Thanks to @krallin and contributors for making tini (https://github.com/krallin/tini/).
-Thanks to CMaNGOS Community (https://github.com/cmangos) / (https://cmangos.net/)
+Thanks to @vishnubob and contributors for the wait-for-it.sh script (https://github.com/vishnubob/wait-for-it).  
+Thanks to @krallin and contributors for making tini (https://github.com/krallin/tini/).  
+Thanks to CMaNGOS Community (https://github.com/cmangos) / (https://cmangos.net/).  
