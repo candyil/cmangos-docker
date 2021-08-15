@@ -1,5 +1,5 @@
 # Download base image ubuntu 18.04
-FROM mariadb:bionic
+FROM mariadb:10.5-bionic
 
 # Install Software
 RUN DEBIAN_FRONTEND=noninteractive apt update && \
