@@ -2,14 +2,11 @@
 FROM ubuntu:18.04 AS builder
 
 # Set Timezone
-ENV TZ Europe/Amsterdam
+ENV TZ=Europe/Amsterdam
 
 # Update Ubuntu Software repository
-RUN apt update
-
-# Install nginx, php-fpm and supervisord from ubuntu repository
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt install -q -y git-core build-essential binutils gcc g++ cpp automake autoconf make libmysql++-dev libtool libssl-dev libcurl4-openssl-dev unrar-free unzip patch zlibc libc6 openssl pkg-config cmake libboost-dev libboost-program-options-dev libboost-system-dev libboost-thread-dev libboost-dev libboost-regex-dev libpthread-stubs0-dev wget && \
+RUN DEBIAN_FRONTEND=noninteractive apt update && \
+    DEBIAN_FRONTEND=noninteractive apt install -q -y git-core build-essential binutils gcc g++ cpp automake autoconf make libmysql++-dev libtool libssl-dev libcurl4-openssl-dev unrar-free unzip patch zlibc libc6 openssl pkg-config cmake libboost-dev libboost-program-options-dev libboost-system-dev libboost-thread-dev libboost-dev libboost-regex-dev libpthread-stubs0-dev wget && \
     rm -rf /var/lib/apt/lists/*
 
 # Prepare new cmake
@@ -40,15 +37,26 @@ RUN cd /opt/cmangos/etc && \
 # Download base image ubuntu
 FROM ubuntu:18.04
 
-# Set Timezone
-ENV TZ Europe/Amsterdam
-
-# Update Ubuntu Software repository
-RUN apt update
-
-# Install nginx, php-fpm and supervisord from ubuntu repository
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt install -q -y binutils libmysql++-dev libtool libssl-dev libcurl4-openssl-dev unrar-free unzip zlibc libc6 openssl pkg-config libboost-dev libboost-program-options-dev libboost-system-dev libboost-thread-dev libboost-dev libboost-regex-dev libpthread-stubs0-dev wget && \
+# Install dependencies for running CMaNGOSd.
+RUN DEBIAN_FRONTEND=noninteractive apt update && \
+    DEBIAN_FRONTEND=noninteractive apt install -q -y \
+    binutils \
+    libboost-dev \
+    libboost-program-options1.65.1 \
+    libboost-regex1.65.1 \
+    libboost-system1.65.1 \
+    libboost-thread1.65.1 \
+    libc6 \
+    libcurl4 \
+    libmysql++3v5 \
+    libpthread-stubs0-dev \
+    libssl1.1 \
+    libtool \
+    openssl \
+    pkg-config \
+    unrar-free \
+    unzip \
+    zlibc && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy over data
@@ -58,27 +66,28 @@ COPY --from=builder /opt/cmangos /opt/cmangos
 VOLUME ["/opt/cmangos/etc"]
 
 # Env Variables
-## Databases
-ENV CHARACTERS_DB wotlkcharacters
-ENV MANGOSD_DB wotlkmangos
-ENV REALMD_DB wotlkrealmd
+ENV TZ=Europe/Amsterdam \
+    CHARACTERS_DB=wotlkcharacters \
+    MANGOSD_DB=wotlkmangos \
+    REALMD_DB=wotlkrealmd \
+    DB_USER=mangos \
+    DB_PASS=mangos \
+    REALMD_USER=mangos \
+    REALMD_PASS=mangos \
+    DB_SERVER=database \
+    REALMD_SERVER=database
 
-## World Credentials
-ENV DB_USER mangos
-ENV DB_PASS mangos
-
-## Realmd Credentials
-ENV REALMD_USER mangos
-ENV REALMD_PASS mangos
-
-## Database Servers
-ENV DB_SERVER database
-ENV REALMD_SERVER database
-
-# Configure Services and Port
+# Copy over init scripts and make them executable
 COPY 00_init.sh /00_init.sh
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /00_init.sh && chmod +x /wait-for-it.sh
+
+# Prepare tini init
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
 CMD ["/00_init.sh"]
 
-EXPOSE 3443 7878 8085
+# Expose ports
+EXPOSE 8085
