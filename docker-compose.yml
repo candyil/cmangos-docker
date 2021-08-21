@@ -37,8 +37,9 @@ services:
       - 3443:3443
       - 7878:7878
     volumes:
-      - mangosd_etc:/opt/cmangos/etc
+      - "mangosd_etc:/opt/cmangos/etc"
       - "/opt/cmangos-data:/opt/cmangos-data:ro"
+      - "/etc/localtime:/etc/localtime:ro"
     restart: "unless-stopped"
     environment:
       - TZ=Europe/Amsterdam
@@ -64,7 +65,8 @@ services:
     ports:
       - 3724:3724
     volumes:
-      - realmd_etc:/opt/cmangos/etc
+      - "realmd_etc:/opt/cmangos/etc"
+      - "/etc/localtime:/etc/localtime:ro"
     restart: "unless-stopped"
     environment:
       - TZ=Europe/Amsterdam
