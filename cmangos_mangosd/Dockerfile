@@ -54,6 +54,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && \
     libtool \
     openssl \
     pkg-config \
+    tzdata \
     unrar-free \
     unzip \
     zlibc && \
