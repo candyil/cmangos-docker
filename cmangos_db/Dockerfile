@@ -3,5 +3,5 @@ FROM mariadb:10.5-bionic
 
 # Install Software
 RUN DEBIAN_FRONTEND=noninteractive apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install -q -y git && \
+    DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y git && \
     rm -rf /var/lib/apt/lists/*

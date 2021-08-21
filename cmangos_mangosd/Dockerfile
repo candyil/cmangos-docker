@@ -39,7 +39,7 @@ FROM ubuntu:18.04
 
 # Install dependencies for running CMaNGOSd.
 RUN DEBIAN_FRONTEND=noninteractive apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install -q -y \
+    DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
     binutils \
     libboost-dev \
     libboost-program-options1.65.1 \
