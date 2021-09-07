@@ -26,7 +26,7 @@ RUN cd /tmp && wget --no-check-certificate https://github.com/Kitware/CMake/rele
 RUN mkdir -p /opt/src && \
     git clone https://github.com/cmangos/mangos-wotlk.git /opt/src/cmangos && \
     echo "Core Version: ${ENV_CORE_COMMIT_HASH}" && \
-    if [ "$ENV_CORE_COMMIT_HASH" != "HEAD" ]; then echo -e "Switching to Commit: ${ENV_CORE_COMMIT_HASH}\n"; cd /opt/src/cmangos; git checkout ${COMMIT_HASH}; fi
+    if [ "$ENV_CORE_COMMIT_HASH" != "HEAD" ]; then echo "Switching to Commit: ${ENV_CORE_COMMIT_HASH}\n"; cd /opt/src/cmangos; git checkout ${ENV_CORE_COMMIT_HASH}; fi
 
 # Build Software
 RUN mkdir -p /opt/cmangos/logs /opt/src/cmangos/build && \
