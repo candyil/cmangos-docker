@@ -50,7 +50,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && \
     DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
     binutils \
     libboost-dev \
-    libboost-filesystem-1.65.1 \
+    libboost-filesystem1.65.1 \
     libboost-program-options1.65.1 \
     libboost-regex1.65.1 \
     libboost-system1.65.1 \
