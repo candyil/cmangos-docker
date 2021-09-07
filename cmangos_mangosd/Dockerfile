@@ -2,7 +2,8 @@
 FROM ubuntu:18.04 AS builder
 
 # Set Timezone
-ENV TZ=Europe/Amsterdam
+ENV TZ=Europe/Amsterdam \
+    COMMIT_HASH=${CORE_COMMIT_HASH}
 
 # Update Ubuntu Software repository
 RUN DEBIAN_FRONTEND=noninteractive apt update && \
@@ -18,7 +19,8 @@ RUN cd /tmp && wget --no-check-certificate https://github.com/Kitware/CMake/rele
 
 # Prepare Sources
 RUN mkdir -p /opt/src && \
-    git clone https://github.com/cmangos/mangos-wotlk.git /opt/src/cmangos
+    git clone https://github.com/cmangos/mangos-wotlk.git /opt/src/cmangos && \
+    if [ "$COMMIT_HASH" != "HEAD" ]; then echo -e "Switching to Commit: ${COMMIT_HASH}\n"; cd /opt/src/cmangos; git checkout ${COMMIT_HASH}; fi
 
 # Build Software
 RUN mkdir -p /opt/cmangos/logs /opt/src/cmangos/build && \
