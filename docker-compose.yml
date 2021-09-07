@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile
     image: gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:latest
     depends_on:
-      - cmangos_db
+      - db
     networks:
       - backend
     ports:
@@ -59,7 +59,7 @@ services:
       dockerfile: Dockerfile
     image: gitlab.sc.lan:5001/korhal/cmangos-docker/realmd:latest
     depends_on:
-      - cmangos_db
+      - db
     networks:
       - backend
     ports:
