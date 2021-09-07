@@ -5,8 +5,8 @@ stages:
   - build
 
 variables:
-  DB_COMMIT_HASH: "HEAD"      # SHA Hash of the commit to use as database source.
   CORE_COMMIT_HASH: "HEAD"    # SHA Hash of the commit to use as the Core source.
+  DB_COMMIT_HASH: "HEAD"      # SHA Hash of the commit to use as database source.
 
 build:
   stage: build
@@ -21,7 +21,7 @@ build:
         tag=":$CI_COMMIT_REF_SLUG"
         echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
       fi
-    - docker-compose build --no-cache
+    - docker-compose build --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH
     - docker-compose push
     - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/db:latest
     - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:latest

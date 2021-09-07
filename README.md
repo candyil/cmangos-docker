@@ -33,8 +33,25 @@ mysql> UPDATE `realmlist` SET `address` = '<your-ip>', `name` = '<realm-name>' W
 mysql> quit;
 ```
 
-## Running without Docker-Compose
-If you want to run the individual containers manually and without docker-compose find an example in the `Dockerrun` or `docker-run.sh` files in the subdirectories.
+## Running / Building a specific Commit version
+It is now possible to specify a Commit Hash for both the Core and for the DB. This will overrule the behaviour to clone and build the latest version. Useful for building a known-good build for example. To use this follow either of the following.
+
+### Using Environment Variables (Useful for CI/CD)
+```
+$ export CORE_COMMIT_HASH=67d01de4c04bc69a81c1a462b2f49a90eb86abae
+$ export DB_COMMIT_HASH=ebc069766dfd57c1a9f631b6cec9434f4f345a8c
+$ sudo docker-compose build --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH
+```
+
+### Using Build Arguments (useful for Single Run)
+```
+$ sudo docker-compose build --no-cache --build-arg CORE_COMMIT_HASH=67d01de4c04bc69a81c1a462b2f49a90eb86abae --build-arg DB_COMMIT_HASH=ebc069766dfd57c1a9f631b6cec9434f4f345a8c
+```
+
+In both cases you can now run:
+```
+$ sudo docker-compose up -d
+```
 
 ## Environment Variables
 ### cmangos_mangosd

@@ -1,9 +1,14 @@
 # Download base image ubuntu
 FROM ubuntu:18.04 AS builder
 
+# Fetch build arguments
+ARG CORE_COMMIT_HASH=HEAD \
+    DB_COMMIT_HASH=HEAD
+
 # Set Timezone
 ENV TZ=Europe/Amsterdam \
-    COMMIT_HASH=${CORE_COMMIT_HASH}
+    ENV_CORE_COMMIT_HASH=$CORE_COMMIT_HASH \
+    ENV_DB_COMMIT_HASH=$DB_COMMIT_HASH
 
 # Update Ubuntu Software repository
 RUN DEBIAN_FRONTEND=noninteractive apt update && \
@@ -20,7 +25,8 @@ RUN cd /tmp && wget --no-check-certificate https://github.com/Kitware/CMake/rele
 # Prepare Sources
 RUN mkdir -p /opt/src && \
     git clone https://github.com/cmangos/mangos-wotlk.git /opt/src/cmangos && \
-    if [ "$COMMIT_HASH" != "HEAD" ]; then echo -e "Switching to Commit: ${COMMIT_HASH}\n"; cd /opt/src/cmangos; git checkout ${COMMIT_HASH}; fi
+    echo "Core Version: ${ENV_CORE_COMMIT_HASH}" && \
+    if [ "$ENV_CORE_COMMIT_HASH" != "HEAD" ]; then echo -e "Switching to Commit: ${ENV_CORE_COMMIT_HASH}\n"; cd /opt/src/cmangos; git checkout ${COMMIT_HASH}; fi
 
 # Build Software
 RUN mkdir -p /opt/cmangos/logs /opt/src/cmangos/build && \
@@ -68,8 +74,14 @@ COPY --from=builder /opt/cmangos /opt/cmangos
 # Volume configuration
 VOLUME ["/opt/cmangos/etc"]
 
+# Fetch build arguments
+ARG CORE_COMMIT_HASH=HEAD \
+    DB_COMMIT_HASH=HEAD
+
 # Env Variables
 ENV TZ=Europe/Amsterdam \
+    ENV_CORE_COMMIT_HASH=$CORE_COMMIT_HASH \
+    ENV_DB_COMMIT_HASH=$DB_COMMIT_HASH \
     CHARACTERS_DB=wotlkcharacters \
     MANGOSD_DB=wotlkmangos \
     REALMD_DB=wotlkrealmd \
