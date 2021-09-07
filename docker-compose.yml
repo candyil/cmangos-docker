@@ -1,4 +1,4 @@
-version: "3"
+version: "3.5"
 
 volumes:
   db:
@@ -6,13 +6,13 @@ volumes:
   realmd_etc:
 
 services:
-  cmangos_db:
+  db:
     build:
       context: ./cmangos_db/
       dockerfile: Dockerfile
-    image: cmangos_db:latest
+    image: gitlab.sc.lan:5001/korhal/cmangos-docker/db:latest
     networks:
-      cmangos-wotlk:
+      backend:
         aliases:
           - database
     volumes:
@@ -23,19 +23,19 @@ services:
       - TZ=Europe/Amsterdam
       - MYSQL_ROOT_PASSWORD=mangos
 
-  cmangos_mangosd:
+  mangosd:
     build:
       context: ./cmangos_mangosd/
       dockerfile: Dockerfile
-    image: cmangos_mangosd:latest
+    image: gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:latest
     depends_on:
       - cmangos_db
     networks:
-      - cmangos-wotlk
+      - backend
     ports:
       - 8085:8085
-      - 3443:3443
-      - 7878:7878
+      #- 3443:3443 # Enable if you want to use Remote Console
+      #- 7878:7878 # Enable if you want to use SOAP
     volumes:
       - "mangosd_etc:/opt/cmangos/etc"
       - "/opt/cmangos-data:/opt/cmangos-data:ro"
@@ -53,15 +53,15 @@ services:
       - DB_SERVER=database
       - REALMD_SERVER=database
 
-  cmangos_realmd:
+  realmd:
     build:
       context: ./cmangos_realmd/
       dockerfile: Dockerfile
-    image: cmangos_realmd:latest
+    image: gitlab.sc.lan:5001/korhal/cmangos-docker/realmd:latest
     depends_on:
       - cmangos_db
     networks:
-      - cmangos-wotlk
+      - backend
     ports:
       - 3724:3724
     volumes:
@@ -76,4 +76,4 @@ services:
       - DB_SERVER=database
 
 networks:
-  cmangos-wotlk:
+  backend:
