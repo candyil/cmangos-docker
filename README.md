@@ -59,6 +59,7 @@ $ sudo docker-compose up -d
 |--------------|-----------------------|-------------------|
 | TZ       | This variable is used set the correct timezone. | Europe/Amsterdam |
 | CHARACTERS_DB | This variable is used to set the Characters Database during init. | wotlkcharacters |
+| LOGS_DB | This variable is used to set the Logs Database during init. | wotlklogs |
 | MANGOSD_DB | This variable is used to set the Wold Database during init. | wotlkmangos |
 | REALMD_DB | This variable is used to set the Realm Database during init. | wotlkrealmd |
 | DB_USER | This variable is used to set the Database user for the World and Characters Database during init. | mangos |

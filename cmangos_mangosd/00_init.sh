@@ -3,6 +3,7 @@
 # Check ENV settings and print them.
 echo "==========[ CMaNGOS mangosd Init ]==========";
 echo "[INFO] CHARACTERS_DB: ${CHARACTERS_DB}";
+echo "[INFO] LOGS_DB: ${LOGS_DB}";
 echo "[INFO] MANGOSD_DB: ${MANGOSD_DB}";
 echo "[INFO] REALMD_DB: ${REALMD_DB}";
 echo "";
@@ -43,6 +44,7 @@ if [ $? -eq 0 ]; then
 	    sed -i 's/LoginDatabaseInfo.*/LoginDatabaseInfo     = "'${REALMD_SERVER}';3306;'${REALMD_USER}';'${REALMD_PASS}';'${REALMD_DB}'"/g' /opt/cmangos/etc/mangosd.conf
 	    sed -i 's/WorldDatabaseInfo.*/WorldDatabaseInfo     = "'${DB_SERVER}';3306;'${DB_USER}';'${DB_PASS}';'${MANGOSD_DB}'"/g' /opt/cmangos/etc/mangosd.conf
 	    sed -i 's/CharacterDatabaseInfo.*/CharacterDatabaseInfo \= "'${DB_SERVER}';3306;'${DB_USER}';'${DB_PASS}';'${CHARACTERS_DB}'"/g' /opt/cmangos/etc/mangosd.conf
+			sed -i 's/LogsDatabaseInfo.*/LogsDatabaseInfo \= "'${DB_SERVER}';3306;'${DB_USER}';'${DB_PASS}';'${LOGS_DB}'"/g' /opt/cmangos/etc/mangosd.conf
 	    echo "[INIT] CMaNGOS database settings set.";
 
 	    # Create .initialized file

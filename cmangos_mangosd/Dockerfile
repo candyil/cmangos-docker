@@ -83,6 +83,7 @@ ENV TZ=Europe/Amsterdam \
     ENV_CORE_COMMIT_HASH=$CORE_COMMIT_HASH \
     ENV_DB_COMMIT_HASH=$DB_COMMIT_HASH \
     CHARACTERS_DB=wotlkcharacters \
+    LOGS_DB=wotlklogs \
     MANGOSD_DB=wotlkmangos \
     REALMD_DB=wotlkrealmd \
     DB_USER=mangos \
