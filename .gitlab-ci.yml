@@ -5,8 +5,8 @@ stages:
   - build
 
 variables:
-  DB_COMMIT_HASH: "not-yet-used"
-  CORE_COMMIT_HASH: "not-yet-used"
+  DB_COMMIT_HASH: "HEAD"      # SHA Hash of the commit to use as database source.
+  CORE_COMMIT_HASH: "HEAD"    # SHA Hash of the commit to use as the Core source.
 
 build:
   stage: build
