@@ -8,7 +8,7 @@ volumes:
 services:
   db:
     build:
-      context: ./cmangos_db/
+      context: ./db/
       dockerfile: Dockerfile
     image: gitlab.sc.lan:5001/korhal/cmangos-docker/db:latest
     networks:
@@ -25,7 +25,7 @@ services:
 
   mangosd:
     build:
-      context: ./cmangos_mangosd/
+      context: ./mangosd/
       dockerfile: Dockerfile
     image: gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:latest
     depends_on:
@@ -55,7 +55,7 @@ services:
 
   realmd:
     build:
-      context: ./cmangos_realmd/
+      context: ./realmd/
       dockerfile: Dockerfile
     image: gitlab.sc.lan:5001/korhal/cmangos-docker/realmd:latest
     depends_on:
