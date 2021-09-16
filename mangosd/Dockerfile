@@ -111,7 +111,9 @@ VOLUME ["/opt/cmangos/etc"]
 
 # Fetch build arguments
 ARG CORE_COMMIT_HASH=HEAD \
-    DB_COMMIT_HASH=HEAD
+    DB_COMMIT_HASH=HEAD \
+    BUILD_AHBOT=ON \
+    BUILD_PLAYERBOT=OFF
 
 # Env Variables
 ENV TZ=Europe/Amsterdam \
