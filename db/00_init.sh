@@ -52,28 +52,6 @@ if [ -f /tmp/cmangos/sql/base/realmd.sql ]; then
   mysql -uroot -pmangos wotlkrealmd < /tmp/cmangos/sql/base/realmd.sql
 fi
 
-# Install Updates for all databases except wotlkmangos
-# wotlkcharacters
-echo "Updating characters ..."
-for FILE in $(ls -1 /tmp/cmangos/sql/updates/characters | grep -v README | sort); do
-  echo "> Applying ${FILE} ...";
-  mysql -uroot -pmangos wotlkcharacters < /tmp/cmangos/sql/updates/characters/${FILE};
-done
-
-# wotlklogs
-echo "Updating logs ..."
-for FILE in $(ls -1 /tmp/cmangos/sql/updates/logs | grep -v README | sort); do
-  echo "> Applying ${FILE} ...";
-  mysql -uroot -pmangos wotlklogs < /tmp/cmangos/sql/updates/logs/${FILE};
-done
-
-# wotlkrealmd
-echo "Updating realmd ..."
-for FILE in $(ls -1 /tmp/cmangos/sql/updates/realmd | grep -v README | sort); do
-  echo "> Applying ${FILE} ...";
-  mysql -uroot -pmangos wotlkrealmd < /tmp/cmangos/sql/updates/realmd/${FILE};
-done
-
 # Copy install script
 cp -v /docker-entrypoint-initdb.d/InstallFullDB.config /tmp/db/InstallFullDB.config
 
