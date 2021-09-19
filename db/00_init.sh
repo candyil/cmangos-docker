@@ -33,20 +33,46 @@ fi
 
 # Create default database structures
 if [ -f /tmp/cmangos/sql/base/characters.sql ]; then
+  echo "Creating characters ..."
   mysql -uroot -pmangos wotlkcharacters < /tmp/cmangos/sql/base/characters.sql
 fi
 
 if [ -f /tmp/cmangos/sql/base/logs.sql ]; then
+  echo "Creating logs ..."
   mysql -uroot -pmangos wotlklogs < /tmp/cmangos/sql/base/logs.sql
 fi
 
 if [ -f /tmp/cmangos/sql/base/mangos.sql ]; then
+  echo "Creating mangos ..."
   mysql -uroot -pmangos wotlkmangos < /tmp/cmangos/sql/base/mangos.sql
 fi
 
 if [ -f /tmp/cmangos/sql/base/realmd.sql ]; then
+  echo "Creating realmd ..."
   mysql -uroot -pmangos wotlkrealmd < /tmp/cmangos/sql/base/realmd.sql
 fi
+
+# Install Updates for all databases except wotlkmangos
+# wotlkcharacters
+echo "Updating characters ..."
+for FILE in $(ls -1 /tmp/cmangos/sql/updates/characters | grep -v README | sort); do
+  echo "> Applying ${FILE} ...";
+  mysql -uroot -pmangos wotlkcharacters < /tmp/cmangos/sql/updates/characters/${FILE};
+done
+
+# wotlklogs
+echo "Updating logs ..."
+for FILE in $(ls -1 /tmp/cmangos/sql/updates/logs | grep -v README | sort); do
+  echo "> Applying ${FILE} ...";
+  mysql -uroot -pmangos wotlklogs < /tmp/cmangos/sql/updates/logs/${FILE};
+done
+
+# wotlkrealmd
+echo "Updating realmd ..."
+for FILE in $(ls -1 /tmp/cmangos/sql/updates/realmd | grep -v README | sort); do
+  echo "> Applying ${FILE} ...";
+  mysql -uroot -pmangos wotlkrealmd < /tmp/cmangos/sql/updates/realmd/${FILE};
+done
 
 # Copy install script
 cp -v /docker-entrypoint-initdb.d/InstallFullDB.config /tmp/db/InstallFullDB.config
@@ -59,7 +85,7 @@ mysql -uroot -pmangos wotlkrealmd -e 'DELETE FROM `account` WHERE id = "2" LIMIT
 mysql -uroot -pmangos wotlkrealmd -e 'DELETE FROM `account` WHERE id = "3" LIMIT 1;'
 mysql -uroot -pmangos wotlkrealmd -e 'DELETE FROM `account` WHERE id = "4" LIMIT 1;'
 
-# Run install scripy
+# Run install script
 cd /tmp/db
 ./InstallFullDB.sh
 
