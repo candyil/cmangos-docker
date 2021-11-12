@@ -7,35 +7,36 @@ stages:
 variables:
   CORE_COMMIT_HASH: "HEAD"    # SHA Hash of the commit to use as the Core source.
   DB_COMMIT_HASH: "HEAD"      # SHA Hash of the commit to use as database source.
+  DOCKER_TAG: "latest"        # The Docker Tag to use for tagging the image.
 
 build:
   stage: build
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - |
-      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-        export tag=":latest"
-        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
-      else
-        export tag=":$CI_COMMIT_REF_SLUG"
-        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
-      fi
+    # - |
+    #   if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+    #     export tag=":latest"
+    #     echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+    #   else
+    #     export tag=":$CI_COMMIT_REF_SLUG"
+    #     echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+    #   fi
     - echo "Building Database ..."
     - cd db
-    - docker build -t gitlab.sc.lan:5001/korhal/cmangos-docker/db${tag} --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH .
-    - docker push gitlab.sc.lan:5001/korhal/cmangos-docker/db${tag}
-    - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/db${tag}
+    - docker build -t gitlab.sc.lan:5001/korhal/cmangos-docker/db:${DOCKER_TAG} --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH .
+    - docker push gitlab.sc.lan:5001/korhal/cmangos-docker/db:${DOCKER_TAG}
+    - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/db:${DOCKER_TAG}
     - echo "Building Game Server ..."
     - cd ../mangosd/
-    - docker build -t gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd${tag} --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH .
-    - docker push gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd${tag}
-    - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd${tag}
+    - docker build -t gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:${DOCKER_TAG} --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH .
+    - docker push gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:${DOCKER_TAG}
+    - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:${DOCKER_TAG}
     - echo "Building Login Server ..."
     - cd ../realmd/
-    - docker build -t gitlab.sc.lan:5001/korhal/cmangos-docker/realmd${tag} --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH .
-    - docker push gitlab.sc.lan:5001/korhal/cmangos-docker/realmd${tag}
-    - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/realmd${tag}
+    - docker build -t gitlab.sc.lan:5001/korhal/cmangos-docker/realmd:${DOCKER_TAG} --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH .
+    - docker push gitlab.sc.lan:5001/korhal/cmangos-docker/realmd:${DOCKER_TAG}
+    - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/realmd:${DOCKER_TAG}
     - cd ..
     - echo "Cleaning up images ..."
     - docker image prune -f
