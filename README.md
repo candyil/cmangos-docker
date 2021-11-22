@@ -75,6 +75,7 @@ When using the `docker-compose build` command only the images that support the a
 | Argument     | Description           | Default Value     |
 |--------------|-----------------------|-------------------|
 | BUILD_AHBOT | This build argument determines whether the Auction House Bot will be built. | ON |
+| BUILD_METRICS | This build argument determines whether the Metric Support will be built. | OFF |
 | BUILD_PLAYERBOT | This build argument determines whether PlayerBot will be built. | OFF |
 | CORE_COMMIT_HASH | This argument determines which Commit hash to use when building (C)MaNGOS. | HEAD |
 
