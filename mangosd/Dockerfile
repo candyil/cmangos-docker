@@ -5,6 +5,7 @@ FROM ubuntu:20.04 AS builder
 ARG CORE_COMMIT_HASH=HEAD \
     DB_COMMIT_HASH=HEAD \
     BUILD_AHBOT=ON \
+    BUILD_METRICS=OFF \
     BUILD_PLAYERBOT=OFF
 
 # Set Timezone
@@ -12,6 +13,7 @@ ENV TZ=Europe/Amsterdam \
     ENV_CORE_COMMIT_HASH=$CORE_COMMIT_HASH \
     ENV_DB_COMMIT_HASH=$DB_COMMIT_HASH \
     ENV_BUILD_AHBOT=$BUILD_AHBOT \
+    ENV_BUILD_METRICS=$BUILD_METRICS \
     ENV_BUILD_PLAYERBOT=$BUILD_PLAYERBOT
 
 # Update Ubuntu Software repository
@@ -64,7 +66,7 @@ RUN mkdir -p /opt/src && \
 # Build Software
 RUN mkdir -p /opt/cmangos/logs /opt/src/cmangos/build && \
     cd /opt/src/cmangos/build && \
-    cmake .. -DCMAKE_INSTALL_PREFIX=/opt/cmangos -DBUILD_LOGIN_SERVER=OFF -DBUILD_PLAYERBOT=${ENV_BUILD_PLAYERBOT} -DBUILD_AHBOT=${ENV_BUILD_AHBOT} && \
+    cmake .. -DCMAKE_INSTALL_PREFIX=/opt/cmangos -DBUILD_LOGIN_SERVER=OFF -DBUILD_PLAYERBOT=${ENV_BUILD_PLAYERBOT} -DBUILD_AHBOT=${ENV_BUILD_AHBOT} -DBUILD_METRICS=${ENV_BUILD_METRICS} && \
     make -j 2 && make install
 
 # Prepare Config Files

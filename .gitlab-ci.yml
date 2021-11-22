@@ -7,6 +7,9 @@ stages:
 variables:
   CORE_COMMIT_HASH: "HEAD"    # SHA Hash of the commit to use as the Core source.
   DB_COMMIT_HASH: "HEAD"      # SHA Hash of the commit to use as database source.
+  BUILD_AHBOT: "ON"           # Build Auction House Bot
+  BUILD_METRICS: "OFF"        # Build Metrics for Server
+  BUILD_PLAYERBOT: "OFF"      # Build PlayerBot extension
   DOCKER_TAG: "latest"        # The Docker Tag to use for tagging the image.
 
 build:
@@ -21,7 +24,7 @@ build:
     - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/db:${DOCKER_TAG}
     - echo "Building Game Server ..."
     - cd ../mangosd/
-    - docker build -t gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:${DOCKER_TAG} --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH .
+    - docker build -t gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:${DOCKER_TAG} --no-cache --build-arg CORE_COMMIT_HASH --build-arg DB_COMMIT_HASH --build-arg BUILD_AHBOT --build-arg BUILD_METRICS --build-arg BUILD_PLAYERBOT .
     - docker push gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:${DOCKER_TAG}
     - docker rmi gitlab.sc.lan:5001/korhal/cmangos-docker/mangosd:${DOCKER_TAG}
     - echo "Building Login Server ..."
