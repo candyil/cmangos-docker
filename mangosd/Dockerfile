@@ -65,7 +65,7 @@ RUN mkdir -p /opt/src && \
 
 # Build Software
 RUN mkdir -p /opt/cmangos/logs /opt/src/cmangos/build && \
-    cd /opt/srv/mangos && \
+    cd /opt/src/mangos && \
     echo "Compiling [mangosd] from source commit $(git log --pretty="%H" -n1 HEAD) ..." && \
     cd /opt/src/cmangos/build && \
     cmake .. -DCMAKE_INSTALL_PREFIX=/opt/cmangos -DBUILD_LOGIN_SERVER=OFF -DBUILD_PLAYERBOT=${ENV_BUILD_PLAYERBOT} -DBUILD_AHBOT=${ENV_BUILD_AHBOT} -DBUILD_METRICS=${ENV_BUILD_METRICS} && \
