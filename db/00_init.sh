@@ -65,7 +65,7 @@ mysql -uroot -pmangos wotlkrealmd -e 'DELETE FROM `account` WHERE id = "4" LIMIT
 
 # Run install script
 cd /tmp/db
-./InstallFullDB.sh
+./InstallFullDB.sh -World
 
 # Cleanup
 cd /
